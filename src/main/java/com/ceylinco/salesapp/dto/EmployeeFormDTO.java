@@ -18,6 +18,10 @@ public class EmployeeFormDTO {
     private String branchName;
     private String branchCode;  // Add branchCode field
 
+    // Remove getBranchCode() and setBranchCode() methods
+    // Add getBranch() and setBranch() methods
+
+
     public Date getDob() {
         return dob;
     }
