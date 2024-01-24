@@ -1,14 +1,10 @@
 package com.ceylinco.salesapp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-//import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -17,6 +13,7 @@ import java.util.Date;
 @Data
 public class EMPLOYEE {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -24,10 +21,13 @@ public class EMPLOYEE {
     private String empNo;
     private String name;
     private String status;
-    private String branchCode;
+
+    @ManyToOne
+    @JoinColumn(name = "branchCode", referencedColumnName = "branchCode")
+    private BRANCHES branch;
 
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -67,13 +67,11 @@ public class EMPLOYEE {
         this.status = status;
     }
 
-    public String getBranchCode() {
-        return branchCode;
+    public BRANCHES getBranch() {
+        return branch;
     }
 
-    public void setBranchCode(String branchCode) {
-        this.branchCode = branchCode;
+    public void setBranch(BRANCHES branch) {
+        this.branch = branch;
     }
 }
-
-///hello

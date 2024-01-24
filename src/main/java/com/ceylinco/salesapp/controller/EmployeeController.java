@@ -1,6 +1,7 @@
 package com.ceylinco.salesapp.controller;
 
 import com.ceylinco.salesapp.dto.EmployeeFormDTO;
+import com.ceylinco.salesapp.entity.BRANCHES;
 import com.ceylinco.salesapp.entity.EMPLOYEE;
 import com.ceylinco.salesapp.repository.EmployeeRepository;
 import lombok.Data;
@@ -25,7 +26,6 @@ public class EmployeeController {
     public List<EMPLOYEE> getAllEmployee(){
         return employeeRepository.findAll();
     }
-
     @PostMapping("/add")
     public ResponseEntity<EMPLOYEE> addEmployee(@RequestBody EmployeeFormDTO employeeFormDTO) {
         try {
@@ -38,7 +38,11 @@ public class EmployeeController {
             employee.setDob(employeeFormDTO.getDob());
             employee.setName(employeeFormDTO.getName());
             employee.setStatus(employeeFormDTO.getStatus());
-            employee.setBranchCode(branchCode); // Set the branchCode
+
+            // Set the branch using the branchCode
+            BRANCHES branch = new BRANCHES();
+            branch.setBranchCode(branchCode);
+            employee.setBranch(branch);
 
             // Save the employee
             EMPLOYEE savedEmployee = employeeRepository.save(employee);
@@ -63,7 +67,7 @@ public class EmployeeController {
 
         if (existingEmployeeOptional.isPresent()) {
             EMPLOYEE existingEmployee = existingEmployeeOptional.get();
-            existingEmployee.setBranchCode(updatedEmployee.getBranchCode());
+            existingEmployee.getBranch().setBranchCode(updatedEmployee.getBranch().getBranchCode());
             existingEmployee.setName(updatedEmployee.getName());
             existingEmployee.setDob(updatedEmployee.getDob());
             existingEmployee.setStatus(updatedEmployee.getStatus());
@@ -78,4 +82,5 @@ public class EmployeeController {
             return ResponseEntity.status(404).body("Employee not found");
         }
     }
+
 }
